@@ -1,6 +1,10 @@
-[gd_scene load_steps=2 format=3 uid="uid://lqtollaovard"]
+[gd_scene format=3 uid="uid://lqtollaovard"]
 
 [ext_resource type="Script" uid="uid://b4ytavk038x8p" path="res://src/base_level.gd" id="1_mnxva"]
+[ext_resource type="TileSet" uid="uid://c5k20hef1q4hi" path="res://src/systems/map/tile_set.tres" id="2_2xr1i"]
 
-[node name="BaseLevel" type="Node2D"]
+[node name="BaseLevel" type="Node2D" unique_id=692058933]
 script = ExtResource("1_mnxva")
+
+[node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=864501250]
+tile_set = ExtResource("2_2xr1i")
