@@ -39,7 +39,11 @@ func start(_units: Array[UnitTurnComponent]) -> void:
 func add_unit(unit: UnitTurnComponent) -> void:
 	units.append(unit)
 	_add_unit(unit)
+	
+	var current_unit = turn_order[current].front()
 	_choose_turn_order()
+	current = current_unit.turn_index
+	
 	unit_added.emit(unit)
 
 
@@ -95,6 +99,7 @@ func _choose_turn_order() -> void:
 	for unit in units:
 		if not join_team_turn or unit.team != last_team or turn_order.is_empty():
 			group = []
+			last_team = unit.team
 			turn_order.append(group)
 		
 		group.append(unit)

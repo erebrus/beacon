@@ -1,7 +1,6 @@
 extends Node2D
 
-@export var enemy1: Node
-@export var enemy2: Node
+@export var enemies: Container
 
 @onready var turn: UnitTurnComponent = %UnitTurnComponent
 
@@ -16,26 +15,19 @@ func kill() -> void:
 
 
 func _on_turn_started() -> void:
-	%Attack1Button.disabled = false
-	%Attack2Button.disabled = false
+	%AttackButton.disabled = false
 	%SelfDestruct.disabled = false
 	
 
 func end_turn() -> void:
-	%Attack1Button.disabled = true
-	%Attack2Button.disabled = true
+	%AttackButton.disabled = true
 	%SelfDestruct.disabled = true
 	turn.end_turn()
 
 func _on_attack_1_button_pressed() -> void:
 	if randf() < 0.6:
-		enemy1.kill()
-	end_turn()
-
-
-func _on_attack_2_button_pressed() -> void:
-	if randf() < 0.6:
-		enemy2.kill()
+		var i = randi() % enemies.get_child_count()
+		enemies.get_child(i).kill()
 	end_turn()
 
 

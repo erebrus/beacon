@@ -1,11 +1,13 @@
 extends ColorRect
 
 @export var player: Node
+@export var enemies: Container
 
 @onready var turn: UnitTurnComponent = %UnitTurnComponent
 
 
 func _ready() -> void:
+	turn.initiative = randi_range(0, 19)
 	turn.turn_started.connect(_on_turn_started)
 
 func kill() -> void:
@@ -22,6 +24,7 @@ func _on_turn_started() -> void:
 	await tween.finished
 	
 	if randf() < 0.3:
-		player.kill()
+		var i = randi() % enemies.get_child_count()
+		enemies.get_child(i).kill()
 	
 	turn.end_turn()

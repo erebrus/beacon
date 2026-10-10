@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://ccp4mqriq4xuw"]
+
+[ext_resource type="PackedScene" uid="uid://dq8lbe2iqi36n" path="res://src/systems/turn_manager/test/test_enemy.tscn" id="1_21q8c"]
+
+[node name="TestNPC" unique_id=1506420989 instance=ExtResource("1_21q8c")]
+color = Color(0.16862746, 0.5058824, 0.79607844, 1)
+
+[node name="UnitTurnComponent" parent="." index="0" unique_id=1870772524]
+team = &"player"

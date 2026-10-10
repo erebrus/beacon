@@ -1,5 +1,9 @@
 extends Node2D
 
+const NPC = preload("test_npc.tscn")
+const ENEMY = preload("test_enemy.tscn")
+
+
 @onready var turn_manager: TurnManager = %TurnManager
 
 func _ready() -> void:
@@ -15,3 +19,17 @@ func _ready() -> void:
 	turn_manager.start([%TestPlayer.turn, %TestEnemy.turn, %TestEnemy2.turn])
 	
  
+
+
+func _on_spawn_npc_pressed() -> void:
+	var npc = NPC.instantiate()
+	npc.enemies = $Enemies
+	$NPCs.add_child(npc)
+	turn_manager.add_unit(npc.turn)
+
+
+func _on_spawn_enemy_pressed() -> void:
+	var npc = ENEMY.instantiate()
+	npc.enemies = $NPCs
+	$Enemies.add_child(npc)
+	turn_manager.add_unit(npc.turn)

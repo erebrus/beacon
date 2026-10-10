@@ -11,26 +11,53 @@ script = ExtResource("1_8lb5k")
 [node name="TurnManager" type="Node" parent="." unique_id=919145645]
 unique_name_in_owner = true
 script = ExtResource("1_gimio")
+join_team_turn = true
 metadata/_custom_type_script = "uid://bdpllwkw8pvef"
 
-[node name="TestPlayer" parent="." unique_id=976637826 node_paths=PackedStringArray("enemy1", "enemy2") instance=ExtResource("2_hogrv")]
-unique_name_in_owner = true
-position = Vector2(429, 440)
-enemy1 = NodePath("../TestEnemy")
-enemy2 = NodePath("../TestEnemy2")
+[node name="NPCs" type="VBoxContainer" parent="." unique_id=1150234409]
+offset_left = 917.0
+offset_top = 334.0
+offset_right = 957.0
+offset_bottom = 374.0
 
-[node name="TestEnemy" parent="." unique_id=1506420989 node_paths=PackedStringArray("player") instance=ExtResource("3_8lb5k")]
+[node name="TestPlayer" parent="NPCs" unique_id=976637826 node_paths=PackedStringArray("enemies") instance=ExtResource("2_hogrv")]
 unique_name_in_owner = true
-offset_left = 1338.0
-offset_top = 210.0
-offset_right = 1388.0
-offset_bottom = 260.0
-player = NodePath("../TestPlayer")
+position = Vector2(-488, 106)
+enemies = NodePath("../../Enemies")
 
-[node name="TestEnemy2" parent="." unique_id=88439740 node_paths=PackedStringArray("player") instance=ExtResource("3_8lb5k")]
+[node name="Enemies" type="VBoxContainer" parent="." unique_id=1633361948]
+offset_left = 1387.0
+offset_top = 454.0
+offset_right = 1437.0
+offset_bottom = 558.0
+theme_override_constants/separation = 40
+alignment = 1
+
+[node name="TestEnemy" parent="Enemies" unique_id=1506420989 node_paths=PackedStringArray("player", "enemies") instance=ExtResource("3_8lb5k")]
 unique_name_in_owner = true
-offset_left = 1340.0
-offset_top = 626.0
-offset_right = 1390.0
-offset_bottom = 676.0
-player = NodePath("../TestPlayer")
+layout_mode = 2
+player = NodePath("../../NPCs/TestPlayer")
+enemies = NodePath("../../NPCs")
+
+[node name="TestEnemy2" parent="Enemies" unique_id=88439740 node_paths=PackedStringArray("player", "enemies") instance=ExtResource("3_8lb5k")]
+unique_name_in_owner = true
+layout_mode = 2
+player = NodePath("../../NPCs/TestPlayer")
+enemies = NodePath("../../NPCs")
+
+[node name="SpawnEnemy" type="Button" parent="." unique_id=1746754310]
+offset_left = 71.0
+offset_top = 1007.0
+offset_right = 215.0
+offset_bottom = 1038.0
+text = "spawn enemy"
+
+[node name="SpawnNPC" type="Button" parent="." unique_id=793827461]
+offset_left = 234.0
+offset_top = 1005.0
+offset_right = 378.0
+offset_bottom = 1036.0
+text = "spawn npc"
+
+[connection signal="pressed" from="SpawnEnemy" to="." method="_on_spawn_enemy_pressed"]
+[connection signal="pressed" from="SpawnNPC" to="." method="_on_spawn_npc_pressed"]
