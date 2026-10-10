@@ -1,0 +1,50 @@
+[gd_scene format=3 uid="uid://5jd5wylmimba"]
+
+[ext_resource type="Script" uid="uid://ia2m1cv42bho" path="res://src/systems/turn_manager/test/test_player.gd" id="1_wv44n"]
+[ext_resource type="Script" uid="uid://daosmcg8ncav0" path="res://src/systems/turn_manager/unit_turn_component.gd" id="2_revhf"]
+
+[node name="TestPlayer" type="Node2D" unique_id=976637826]
+script = ExtResource("1_wv44n")
+
+[node name="UnitTurnComponent" type="Node" parent="." unique_id=1241585861 node_paths=PackedStringArray("target")]
+unique_name_in_owner = true
+script = ExtResource("2_revhf")
+target = NodePath("..")
+is_player = true
+metadata/_custom_type_script = "uid://daosmcg8ncav0"
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=666589167]
+offset_right = 40.0
+offset_bottom = 40.0
+offset_transform_enabled = true
+
+[node name="Attack1Button" type="Button" parent="." unique_id=612426130]
+unique_name_in_owner = true
+offset_left = 9.0
+offset_top = 55.0
+offset_right = 90.0
+offset_bottom = 86.0
+disabled = true
+text = "attack up"
+
+[node name="Attack2Button" type="Button" parent="." unique_id=782124987]
+unique_name_in_owner = true
+offset_left = 10.0
+offset_top = 94.0
+offset_right = 114.0
+offset_bottom = 125.0
+disabled = true
+text = "attack down"
+
+[node name="SelfDestruct" type="Button" parent="." unique_id=875951660]
+unique_name_in_owner = true
+offset_left = 11.0
+offset_top = 134.0
+offset_right = 115.0
+offset_bottom = 165.0
+disabled = true
+text = "self destruct"
+
+[connection signal="pressed" from="Attack1Button" to="." method="_on_attack_1_button_pressed"]
+[connection signal="pressed" from="Attack2Button" to="." method="_on_attack_2_button_pressed"]
+[connection signal="pressed" from="SelfDestruct" to="." method="_on_self_destruct_pressed"]

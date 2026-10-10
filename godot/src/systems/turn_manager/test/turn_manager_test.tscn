@@ -1,0 +1,36 @@
+[gd_scene format=3 uid="uid://2h3usfcwj4ok"]
+
+[ext_resource type="Script" uid="uid://cywyjmdyuw5gq" path="res://src/systems/turn_manager/test/turn_manager_test.gd" id="1_8lb5k"]
+[ext_resource type="Script" uid="uid://bdpllwkw8pvef" path="res://src/systems/turn_manager/turn_manager.gd" id="1_gimio"]
+[ext_resource type="PackedScene" uid="uid://5jd5wylmimba" path="res://src/systems/turn_manager/test/test_player.tscn" id="2_hogrv"]
+[ext_resource type="PackedScene" uid="uid://dq8lbe2iqi36n" path="res://src/systems/turn_manager/test/test_enemy.tscn" id="3_8lb5k"]
+
+[node name="TurnManagerTest" type="Node2D" unique_id=1960521884]
+script = ExtResource("1_8lb5k")
+
+[node name="TurnManager" type="Node" parent="." unique_id=919145645]
+unique_name_in_owner = true
+script = ExtResource("1_gimio")
+metadata/_custom_type_script = "uid://bdpllwkw8pvef"
+
+[node name="TestPlayer" parent="." unique_id=976637826 node_paths=PackedStringArray("enemy1", "enemy2") instance=ExtResource("2_hogrv")]
+unique_name_in_owner = true
+position = Vector2(429, 440)
+enemy1 = NodePath("../TestEnemy")
+enemy2 = NodePath("../TestEnemy2")
+
+[node name="TestEnemy" parent="." unique_id=1506420989 node_paths=PackedStringArray("player") instance=ExtResource("3_8lb5k")]
+unique_name_in_owner = true
+offset_left = 1338.0
+offset_top = 210.0
+offset_right = 1388.0
+offset_bottom = 260.0
+player = NodePath("../TestPlayer")
+
+[node name="TestEnemy2" parent="." unique_id=88439740 node_paths=PackedStringArray("player") instance=ExtResource("3_8lb5k")]
+unique_name_in_owner = true
+offset_left = 1340.0
+offset_top = 626.0
+offset_right = 1390.0
+offset_bottom = 676.0
+player = NodePath("../TestPlayer")

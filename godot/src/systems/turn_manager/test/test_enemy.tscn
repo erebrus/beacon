@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://dq8lbe2iqi36n"]
+
+[ext_resource type="Script" uid="uid://dam3sony5g2ea" path="res://src/systems/turn_manager/test/test_enemy.gd" id="1_6ksv3"]
+[ext_resource type="Script" uid="uid://daosmcg8ncav0" path="res://src/systems/turn_manager/unit_turn_component.gd" id="2_y8vay"]
+
+[node name="TestUnit" type="ColorRect" unique_id=1506420989]
+custom_minimum_size = Vector2(50, 50)
+offset_transform_enabled = true
+color = Color(1, 0.13333334, 0.24705882, 1)
+script = ExtResource("1_6ksv3")
+
+[node name="UnitTurnComponent" type="Node" parent="." unique_id=1870772524 node_paths=PackedStringArray("target")]
+unique_name_in_owner = true
+script = ExtResource("2_y8vay")
+target = NodePath("..")
+team = &"npcs"
+metadata/_custom_type_script = "uid://daosmcg8ncav0"
