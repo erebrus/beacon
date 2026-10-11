@@ -49,7 +49,9 @@ func _input(event: InputEvent) -> void:
 		
 		
 
-
+func exclusive_cell_use() -> bool:
+	return true
+	
 func _do_interaction():
 	pass
 	

@@ -47,6 +47,12 @@ func map_to_global(cell:Vector2i) -> Vector2:
 	return map_to_local(cell) + global_position
 
 func is_cell_free(cell: Vector2i) -> bool:
+	#changes untested
+	var obj:Node2D = objects[cell] if cell in objects else null
+	if obj and obj.exclusive_cell_use(): #TODO candidate for component, instead of checking object
+		return false
+	#for child in get_children():
+		
 	return true #TODO missing
 
 func has_interaction(cell: Vector2i) -> bool:
