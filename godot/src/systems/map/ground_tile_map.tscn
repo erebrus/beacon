@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://cqgrfh2s22xkh"]
+
+[ext_resource type="TileSet" uid="uid://c5k20hef1q4hi" path="res://src/systems/map/tile_set.tres" id="1_p1rxo"]
+[ext_resource type="Script" uid="uid://c548ga67ix0wj" path="res://src/systems/map/ground_tile_map.gd" id="2_5xsc7"]
+
+[node name="GroundTileMap" type="TileMapLayer" unique_id=1670205592]
+tile_set = ExtResource("1_p1rxo")
+script = ExtResource("2_5xsc7")
