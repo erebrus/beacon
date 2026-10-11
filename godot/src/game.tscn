@@ -17,6 +17,7 @@ game_state = SubResource("Resource_5q4o7")
 [node name="LevelManager" parent="." unique_id=827960347 node_paths=PackedStringArray("level_container") instance=ExtResource("2_bs6l1")]
 levels = Array[PackedScene]([ExtResource("3_pk08u")])
 level_container = NodePath("../Level")
+override_level = ExtResource("3_pk08u")
 
 [node name="Level" type="Node2D" parent="." unique_id=1708604477]
 

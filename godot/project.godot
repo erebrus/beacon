@@ -16,9 +16,13 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 
 config/name="Beacon"
 config/version="0.0.0"
-run/main_scene="res://src/start_screen/start_screen.tscn"
+run/main_scene="uid://ke438w5ne7cw"
 config/features=PackedStringArray("4.7", "Forward Plus")
 config/icon="res://icon.svg"
+
+[audio]
+
+buses/default_bus_layout="uid://bw5y1daegv4wn"
 
 [autoload]
 
