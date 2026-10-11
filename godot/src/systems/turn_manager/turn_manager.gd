@@ -12,19 +12,23 @@ signal round_started
 signal round_ended
 signal single_team_remaining(team: StringName, units: Array[UnitTurnComponent])
 
-
+## Whether units in the same team should take their turn in parallel if they are next to each other in turn order.
 @export var joint_team_turn: bool = false
 
-
+## Units, in turn order.
 var units: Array[UnitTurnComponent]
+## Units by team.
 var teams: Dictionary[StringName, Array] # Dictionary[StringName, Array[UnitTurnComponent]]
+## Groups of units that take their turn together, in turn order
 var turn_order: Array[Array] # Array[Array[UnitTurnComponent]]
 
+## Units which currently have the turn.
 var turn_group_units: Array[UnitTurnComponent]
+## Units which have yet to take a turn in this round.
 var turn_pending_in_round: Dictionary[UnitTurnComponent, bool]
 
 
-## Decides turn order, handles turn to first unit
+## Decides turn order, handles turn to first unit.
 func start(_units: Array[UnitTurnComponent]) -> void:
 	teams.clear()
 	
@@ -37,7 +41,11 @@ func start(_units: Array[UnitTurnComponent]) -> void:
 	_choose_turn_order()
 	_start_round()
 
-
+## Add an unit when turns have already started.
+## 
+## If they should act before the current unit in initiative, they act just after 
+## the current units ends their turn. It will take its turn in their regular turn
+## order in the next round.
 func add_unit(unit: UnitTurnComponent) -> void:
 	units.append(unit)
 	_add_unit(unit)
@@ -46,7 +54,7 @@ func add_unit(unit: UnitTurnComponent) -> void:
 	
 	unit_added.emit(unit)
 
-
+## Remove an unit when turns have already started.
 func remove_unit(unit: UnitTurnComponent) -> void:
 	if not unit in units:
 		push_warning("tried to delete non-managed unit")

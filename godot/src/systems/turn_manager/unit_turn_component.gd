@@ -4,9 +4,12 @@ signal turn_started
 signal turn_ended
 signal removed
 
+## Unit whose turn is being managed (only used for logs)
 @export var target: Node
 @export var is_player: bool
 @export var team: StringName
+
+## Higher initiative means acting earlier in turn order
 @export var initiative: int
 
 var turn_index: int
@@ -16,10 +19,6 @@ var is_turn: bool
 func _ready() -> void:
 	if team.is_empty() and is_player:
 		team = &"player"
-
-
-func _exit_tree() -> void:
-	removed.emit()
 
 
 func start_turn() -> void:
@@ -40,6 +39,7 @@ func end_turn() -> void:
 
 func remove() -> void:
 	removed.emit()
+
 
 func _to_string() -> String:
 	return "%s:%s" % [team, target.name]
