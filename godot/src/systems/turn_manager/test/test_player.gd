@@ -25,9 +25,13 @@ func end_turn() -> void:
 	turn.end_turn()
 
 func _on_attack_1_button_pressed() -> void:
-	if randf() < 0.6:
-		var i = randi() % enemies.get_child_count()
-		enemies.get_child(i).kill()
+	var enemy_count = enemies.get_child_count()
+	
+	if enemy_count > 0:
+		if randf() < 0.6:
+			var i = randi() % enemy_count
+			enemies.get_child(i).kill()
+	
 	end_turn()
 
 

@@ -23,8 +23,11 @@ func _on_turn_started() -> void:
 	
 	await tween.finished
 	
-	if randf() < 0.3:
-		var i = randi() % enemies.get_child_count()
-		enemies.get_child(i).kill()
+	var enemy_count = enemies.get_child_count()
+	
+	if enemy_count > 0:
+		if randf() < 0.3:
+			var i = randi() % enemy_count
+			enemies.get_child(i).kill()
 	
 	turn.end_turn()

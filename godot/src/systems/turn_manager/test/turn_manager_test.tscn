@@ -11,7 +11,7 @@ script = ExtResource("1_8lb5k")
 [node name="TurnManager" type="Node" parent="." unique_id=919145645]
 unique_name_in_owner = true
 script = ExtResource("1_gimio")
-join_team_turn = true
+joint_team_turn = true
 metadata/_custom_type_script = "uid://bdpllwkw8pvef"
 
 [node name="NPCs" type="VBoxContainer" parent="." unique_id=1150234409]

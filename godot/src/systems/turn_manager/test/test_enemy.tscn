@@ -13,5 +13,5 @@ script = ExtResource("1_6ksv3")
 unique_name_in_owner = true
 script = ExtResource("2_y8vay")
 target = NodePath("..")
-team = &"npcs"
+team = &"enemies"
 metadata/_custom_type_script = "uid://daosmcg8ncav0"

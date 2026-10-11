@@ -42,4 +42,4 @@ func remove() -> void:
 	removed.emit()
 
 func _to_string() -> String:
-	return target.name
+	return "%s:%s" % [team, target.name]

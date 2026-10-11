@@ -4,7 +4,11 @@ const NPC = preload("test_npc.tscn")
 const ENEMY = preload("test_enemy.tscn")
 
 
+var npc_counter:= 0
+var enemy_counter:= 2
+
 @onready var turn_manager: TurnManager = %TurnManager
+
 
 func _ready() -> void:
 	turn_manager.turn_order_changed.connect(func(x): GSLogger.info("Turn order: %s" % [x]))
@@ -12,24 +16,26 @@ func _ready() -> void:
 	turn_manager.round_ended.connect(func(): GSLogger.info("Round ended"))
 	turn_manager.turn_started.connect(func(x): GSLogger.info("Turn started for %s" % [x.target.name]))
 	turn_manager.turn_ended.connect(func(x): GSLogger.info("Turn ended for %s" % [x.target.name]))
-	turn_manager.ended.connect(func(x, _u): GSLogger.info("Battle ended with winner %s" % [x]))
+	turn_manager.single_team_remaining.connect(func(x, _u): GSLogger.info("Battle ended with winner %s" % [x]))
 	turn_manager.unit_added.connect(func(x): GSLogger.info("Added unit: %s" % [x.target.name]))
 	turn_manager.unit_removed.connect(func(x): GSLogger.info("Removed unit: %s" % [x.target.name]))
 	
 	turn_manager.start([%TestPlayer.turn, %TestEnemy.turn, %TestEnemy2.turn])
-	
- 
 
 
 func _on_spawn_npc_pressed() -> void:
+	npc_counter += 1
 	var npc = NPC.instantiate()
+	npc.name = "Minion%s" % npc_counter
 	npc.enemies = $Enemies
 	$NPCs.add_child(npc)
 	turn_manager.add_unit(npc.turn)
 
 
 func _on_spawn_enemy_pressed() -> void:
+	enemy_counter += 1
 	var npc = ENEMY.instantiate()
+	npc.name = "TestEnemy%s" % enemy_counter
 	npc.enemies = $NPCs
 	$Enemies.add_child(npc)
 	turn_manager.add_unit(npc.turn)

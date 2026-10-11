@@ -10,16 +10,18 @@ signal turn_ended(unit: UnitTurnComponent)
 
 signal round_started
 signal round_ended
-signal ended(team: StringName, units: Array[UnitTurnComponent])
+signal single_team_remaining(team: StringName, units: Array[UnitTurnComponent])
 
-@export var join_team_turn: bool = false
+
+@export var joint_team_turn: bool = false
 
 
 var units: Array[UnitTurnComponent]
 var teams: Dictionary[StringName, Array] # Dictionary[StringName, Array[UnitTurnComponent]]
 var turn_order: Array[Array] # Array[Array[UnitTurnComponent]]
 
-var current: int = 0
+var turn_group_units: Array[UnitTurnComponent]
+var turn_pending_in_round: Dictionary[UnitTurnComponent, bool]
 
 
 ## Decides turn order, handles turn to first unit
@@ -40,9 +42,7 @@ func add_unit(unit: UnitTurnComponent) -> void:
 	units.append(unit)
 	_add_unit(unit)
 	
-	var current_unit = turn_order[current].front()
 	_choose_turn_order()
-	current = current_unit.turn_index
 	
 	unit_added.emit(unit)
 
@@ -54,6 +54,7 @@ func remove_unit(unit: UnitTurnComponent) -> void:
 	
 	unit_removed.emit(unit)
 	units.erase(unit)
+	turn_pending_in_round.erase(unit)
 	
 	unit.turn_started.disconnect(_on_unit_turn_started)
 	unit.turn_ended.disconnect(_on_unit_turn_ended)
@@ -62,16 +63,11 @@ func remove_unit(unit: UnitTurnComponent) -> void:
 	if teams.has(unit.team):
 		teams[unit.team].erase(unit)
 	
-	var group: Array[UnitTurnComponent] = turn_order[unit.turn_index]
-	group.erase(unit)
-	if group.is_empty():
-		turn_order.erase(group)
-		_update_unit_turn_index()
-		
-		if unit.turn_index == current:
-			_start_turn()
-		elif unit.turn_index < current:
-			current -= 1
+	_choose_turn_order()
+	_check_single_remaining_team()
+	
+	if turn_group_units.has(unit):
+		_on_unit_turn_ended(unit)
 
 
 func _add_unit(unit: UnitTurnComponent) -> void:
@@ -79,6 +75,8 @@ func _add_unit(unit: UnitTurnComponent) -> void:
 		var empty: Array[UnitTurnComponent]
 		teams[unit.team] = empty
 	teams[unit.team].append(unit)
+	turn_pending_in_round[unit] = true
+	
 	unit.turn_started.connect(_on_unit_turn_started.bind(unit))
 	unit.turn_ended.connect(_on_unit_turn_ended.bind(unit))
 	unit.removed.connect(_on_unit_removed.bind(unit))
@@ -97,7 +95,7 @@ func _choose_turn_order() -> void:
 	var group: Array[UnitTurnComponent]
 	
 	for unit in units:
-		if not join_team_turn or unit.team != last_team or turn_order.is_empty():
+		if not joint_team_turn or unit.team != last_team or turn_order.is_empty():
 			group = []
 			last_team = unit.team
 			turn_order.append(group)
@@ -120,16 +118,18 @@ func _check_single_remaining_team() -> bool:
 	)
 	if remaining_teams.size() == 1:
 		var team_name: StringName = remaining_teams.front()
-		ended.emit(team_name, teams[team_name])
+		single_team_remaining.emit(team_name, teams[team_name])
 		return true
 	
 	return false
 
 
 func _start_round() -> void:
+	for unit in turn_pending_in_round:
+		turn_pending_in_round[unit] = true
+	
 	round_started.emit()
-	current = 0
-	_start_turn()
+	_start_turn(0)
 
 
 func _end_round() -> void:
@@ -137,19 +137,29 @@ func _end_round() -> void:
 	_start_round()
 
 
-func _start_turn() -> void:
-	if _check_single_remaining_team():
+func _start_turn(turn_index: int) -> void:
+	turn_group_units.assign(turn_order[turn_index].filter(func(u: UnitTurnComponent): return turn_pending_in_round[u]))
+	
+	if turn_group_units.is_empty():
+		_end_turn()
 		return
 	
-	if current >= turn_order.size():
-		_end_round()
-		return
-	
-	var group: Array[UnitTurnComponent] = turn_order[current]
-	
-	for unit in group:
+	for unit in turn_group_units:
 		if is_instance_valid(unit):
 			unit.start_turn()
+			turn_pending_in_round[unit] = false
+
+
+func _end_turn() -> void:
+	var turn_index = turn_order.size()
+	for unit in turn_pending_in_round:
+		if turn_pending_in_round[unit] and unit.turn_index < turn_index:
+			turn_index = unit.turn_index
+	
+	if turn_index == turn_order.size():
+		_end_round()
+	else:
+		_start_turn(turn_index)
 
 
 func _on_unit_turn_started(unit: UnitTurnComponent) -> void:
@@ -157,17 +167,14 @@ func _on_unit_turn_started(unit: UnitTurnComponent) -> void:
 
 
 func _on_unit_turn_ended(unit: UnitTurnComponent) -> void:
-	var group: Array[UnitTurnComponent] = turn_order[current]
-	
-	assert(unit in group, "Unit should not be acting")
+	assert(unit in turn_group_units, "Unit should not be acting")
 	
 	turn_ended.emit(unit)
 	
-	var finished := group.all(func(u: UnitTurnComponent): return not u.is_turn)
+	var finished := turn_group_units.all(func(u: UnitTurnComponent): return not u.is_turn)
 	
 	if finished:
-		current += 1
-		_start_turn()
+		_end_turn()
 
 
 func _on_unit_removed(unit: UnitTurnComponent) -> void:
