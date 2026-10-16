@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://cgjptdh6yw647" path="res://src/systems/player/player.gd" id="1_867vp"]
 [ext_resource type="Texture2D" uid="uid://bi6q8sx543pyr" path="res://assets/gfx/character/character.png" id="2_xmuqd"]
+[ext_resource type="Script" uid="uid://bx4ovf2q2px2i" path="res://src/systems/map/tile_component.gd" id="3_xmuqd"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_i7cnb"]
 radius = 20.0
@@ -17,3 +18,8 @@ texture = ExtResource("2_xmuqd")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=502687951]
 position = Vector2(0, -56)
 shape = SubResource("CapsuleShape2D_i7cnb")
+
+[node name="TileComponent" type="Node2D" parent="." unique_id=578199564 node_paths=PackedStringArray("target")]
+script = ExtResource("3_xmuqd")
+target = NodePath("..")
+metadata/_custom_type_script = "uid://bx4ovf2q2px2i"
