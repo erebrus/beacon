@@ -22,13 +22,17 @@ func _physics_process(delta: float) -> void:
 		GSLogger.info("Dequeued move to %s" % [desired_cell])
 		if map.is_cell_free(desired_cell):
 			_do_move()
-		else:
-			var object = map.get_object(desired_cell)
-			if not _do_interaction(object):
-				#can't move there. TODO give feedback
-				return	
+			return
 		
-	
+		if map.can_interact(desired_cell):
+			_do_interaction()
+		else:
+			#can't move there. TODO give feedback
+			pass
+		
+		desired_cell = tile_component.cell
+
+
 func _input(event: InputEvent) -> void:
 	var input_direction := Input.get_vector("move_left","move_right","move_up","move_down")
 	
@@ -50,13 +54,9 @@ func _input(event: InputEvent) -> void:
 func exclusive_cell_use() -> bool:
 	return true
 	
-func _do_interaction(object: Node) -> bool:
-	#if object is SomethingInteractionable:
-		#object.do_stuff()
-		#return true
-	#
-	return false
-	
+func _do_interaction() -> void:
+	map.interact(desired_cell)
+
 
 func _do_move():
 	in_anim = true

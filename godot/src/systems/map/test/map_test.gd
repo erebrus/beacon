@@ -25,6 +25,7 @@ func _input(event: InputEvent) -> void:
 
 func _move(direction: Vector2i) -> void:
 	var target := current_cell + direction
-	if ground.visit(target):
+	if ground.can_move(target):
+		ground.visit(target) 
 		current_cell = target
 		player.position = ground.map_to_local(current_cell)

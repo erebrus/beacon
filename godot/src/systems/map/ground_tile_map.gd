@@ -56,10 +56,23 @@ func is_cell_free(cell: Vector2i) -> bool:
 	return true
 
 
-func get_object(cell: Vector2i) -> Node:
+func can_interact(cell: Vector2i) -> bool:
 	if not objects.has(cell):
-		return null
-	return objects[cell].target
+		return false
+	return objects[cell].can_interact
+
+
+func interact(cell: Vector2i) -> void:
+	if not objects.has(cell):
+		GSLogger.warn("Tried to interact with object at %s, but it's not interactionable!." % [cell])
+		return
+	
+	var component:= objects[cell]
+	if not component.can_interact:
+		GSLogger.warn("Tried to interact with object %s at %s, but it's not interactionable!." % [component.target.name, cell])
+		return
+	
+	component.interact()
 
 
 func register_component(component: TileComponent) -> void:

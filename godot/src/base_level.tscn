@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://cqgrfh2s22xkh" path="res://src/systems/map/ground_tile_map.tscn" id="2_2xr1i"]
 [ext_resource type="PackedScene" uid="uid://bvx0bcjkiobrj" path="res://src/systems/player/player.tscn" id="3_orbt0"]
 [ext_resource type="PackedScene" uid="uid://b6lf6jnjlqt4n" path="res://src/systems/obstacles/tree.tscn" id="4_mo2dc"]
+[ext_resource type="PackedScene" uid="uid://dt4jk00rdm1c" path="res://src/systems/beacons/beacon.tscn" id="5_82ww6"]
 
 [node name="BaseLevel" type="Node2D" unique_id=692058933]
 y_sort_enabled = true
@@ -26,3 +27,10 @@ position = Vector2(570, 458)
 
 [node name="Tree2" parent="Trees" unique_id=1362889618 instance=ExtResource("4_mo2dc")]
 position = Vector2(834, 712)
+
+[node name="Beacons" type="Node2D" parent="." unique_id=1355013542]
+unique_name_in_owner = true
+y_sort_enabled = true
+
+[node name="Beacon" parent="Beacons" unique_id=736061342 instance=ExtResource("5_82ww6")]
+position = Vector2(1222, 441)

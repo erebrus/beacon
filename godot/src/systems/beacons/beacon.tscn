@@ -1,0 +1,38 @@
+[gd_scene format=3 uid="uid://dt4jk00rdm1c"]
+
+[ext_resource type="Texture2D" uid="uid://cu4hqtnddcyce" path="res://assets/gfx/beacons/beacon_base.png" id="1_fhxru"]
+[ext_resource type="Script" uid="uid://d32u2r8cm1bx" path="res://src/systems/beacons/beacon.gd" id="1_pabb3"]
+[ext_resource type="Texture2D" uid="uid://mo4xapawmakv" path="res://assets/gfx/beacons/beacon_light.png" id="2_aupcb"]
+[ext_resource type="Script" uid="uid://bx4ovf2q2px2i" path="res://src/systems/map/tile_component.gd" id="3_aupcb"]
+
+[node name="Beacon" type="Node2D" unique_id=736061342]
+script = ExtResource("1_pabb3")
+
+[node name="Base" type="Sprite2D" parent="." unique_id=1259013618]
+position = Vector2(0, -169)
+texture = ExtResource("1_fhxru")
+
+[node name="Light" type="Sprite2D" parent="." unique_id=1067610804]
+visible = false
+position = Vector2(0, -169)
+texture = ExtResource("2_aupcb")
+
+[node name="TileComponent" type="Node2D" parent="." unique_id=322575336 node_paths=PackedStringArray("target")]
+script = ExtResource("3_aupcb")
+target = NodePath("..")
+can_interact = true
+metadata/_custom_type_script = "uid://bx4ovf2q2px2i"
+
+[node name="TileComponent2" type="Node2D" parent="." unique_id=1963976025 node_paths=PackedStringArray("target")]
+position = Vector2(-128, 0)
+script = ExtResource("3_aupcb")
+target = NodePath("..")
+metadata/_custom_type_script = "uid://bx4ovf2q2px2i"
+
+[node name="TileComponent3" type="Node2D" parent="." unique_id=1093034000 node_paths=PackedStringArray("target")]
+position = Vector2(128, 0)
+script = ExtResource("3_aupcb")
+target = NodePath("..")
+metadata/_custom_type_script = "uid://bx4ovf2q2px2i"
+
+[connection signal="interacted" from="TileComponent" to="." method="_on_tile_component_interacted"]
