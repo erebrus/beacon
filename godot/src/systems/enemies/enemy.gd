@@ -3,6 +3,7 @@ extends Node2D
 @export var hp:=1.0
 
 
+@onready var turn: UnitTurnComponent = $UnitTurnComponent
 
 func take_damage():
 	if hp:
@@ -17,3 +18,9 @@ func do_death():
 	
 func _on_tile_component_interacted() -> void:
 	take_damage()
+
+
+func _on_unit_turn_component_turn_started() -> void:
+	GSLogger.info("%s turn" % [name])
+	await get_tree().physics_frame
+	turn.end_turn()

@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://b4ytavk038x8p" path="res://src/base_level.gd" id="1_mnxva"]
 [ext_resource type="PackedScene" uid="uid://cqgrfh2s22xkh" path="res://src/systems/map/ground_tile_map.tscn" id="2_2xr1i"]
+[ext_resource type="Script" uid="uid://bdpllwkw8pvef" path="res://src/systems/turn_manager/turn_manager.gd" id="2_vmobq"]
 [ext_resource type="PackedScene" uid="uid://bvx0bcjkiobrj" path="res://src/systems/player/player.tscn" id="3_orbt0"]
 [ext_resource type="PackedScene" uid="uid://b6lf6jnjlqt4n" path="res://src/systems/obstacles/tree.tscn" id="4_mo2dc"]
 [ext_resource type="PackedScene" uid="uid://dt4jk00rdm1c" path="res://src/systems/beacons/beacon.tscn" id="5_82ww6"]
@@ -10,6 +11,10 @@
 [node name="BaseLevel" type="Node2D" unique_id=692058933]
 y_sort_enabled = true
 script = ExtResource("1_mnxva")
+
+[node name="TurnManager" type="Node" parent="." unique_id=1027588654]
+script = ExtResource("2_vmobq")
+metadata/_custom_type_script = "uid://bdpllwkw8pvef"
 
 [node name="GroundTileMap" parent="." unique_id=1670205592 instance=ExtResource("2_2xr1i")]
 unique_name_in_owner = true

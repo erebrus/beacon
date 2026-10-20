@@ -41,4 +41,3 @@ static func get_level_name(level : int ):
 			return "FATAL"
 		_:
 			return "NONE"
-

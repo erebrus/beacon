@@ -3,6 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://dsu4xtepa6mxj" path="res://assets/gfx/enemies/ghost.png" id="1_0gv0t"]
 [ext_resource type="Script" uid="uid://c3kojuj135222" path="res://src/systems/enemies/enemy.gd" id="1_1diva"]
 [ext_resource type="Script" uid="uid://bx4ovf2q2px2i" path="res://src/systems/map/tile_component.gd" id="2_1diva"]
+[ext_resource type="Script" uid="uid://daosmcg8ncav0" path="res://src/systems/turn_manager/unit_turn_component.gd" id="4_olw8i"]
 
 [node name="Enemy" type="Node2D" unique_id=1352275050]
 script = ExtResource("1_1diva")
@@ -17,4 +18,11 @@ target = NodePath("..")
 can_interact = true
 metadata/_custom_type_script = "uid://bx4ovf2q2px2i"
 
+[node name="UnitTurnComponent" type="Node" parent="." unique_id=1142746337 node_paths=PackedStringArray("target")]
+script = ExtResource("4_olw8i")
+target = NodePath("..")
+team = &"enemies"
+metadata/_custom_type_script = "uid://daosmcg8ncav0"
+
 [connection signal="interacted" from="TileComponent" to="." method="_on_tile_component_interacted"]
+[connection signal="turn_started" from="UnitTurnComponent" to="." method="_on_unit_turn_component_turn_started"]
