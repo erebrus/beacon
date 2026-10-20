@@ -1,9 +1,11 @@
 [gd_scene format=3 uid="uid://b6lf6jnjlqt4n"]
 
 [ext_resource type="Texture2D" uid="uid://dwi4l1xhb6y1i" path="res://assets/gfx/background/tree.png" id="1_b2ahc"]
+[ext_resource type="Script" uid="uid://do05ki3wwpmng" path="res://src/systems/obstacles/tree.gd" id="1_ndlt2"]
 [ext_resource type="Script" uid="uid://bx4ovf2q2px2i" path="res://src/systems/map/tile_component.gd" id="2_ndlt2"]
 
 [node name="Tree" type="Node2D" unique_id=1512373784]
+script = ExtResource("1_ndlt2")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=875829369]
 position = Vector2(-2, -189)
@@ -12,4 +14,7 @@ texture = ExtResource("1_b2ahc")
 [node name="TileComponent" type="Node2D" parent="." unique_id=840836714 node_paths=PackedStringArray("target")]
 script = ExtResource("2_ndlt2")
 target = NodePath("..")
+can_interact = true
 metadata/_custom_type_script = "uid://bx4ovf2q2px2i"
+
+[connection signal="interacted" from="TileComponent" to="." method="_on_tile_component_interacted"]

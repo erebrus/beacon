@@ -11,9 +11,11 @@ func _ready():
 	Events.level_ended.connect(_on_level_ended)
 	fade_panel.show()
 	fade_panel.fade_in()
-	level_manager.load_first_level()
+	level_manager.load_first_level()	
 	Debug.set_levels(level_manager.levels)
 	Globals.game = self
+	#TODO for debug only, remove after UI connection
+	Events.wood_collected.connect(func(count:int):GSLogger.info("Collected %d wood" % [count]))
 
 func _on_level_ended():
 	fade_panel.fade_out()
