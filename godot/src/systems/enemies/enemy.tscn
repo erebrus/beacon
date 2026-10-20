@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://cm7gpr7r0mb3o"]
+
+[ext_resource type="Texture2D" uid="uid://dsu4xtepa6mxj" path="res://assets/gfx/enemies/ghost.png" id="1_0gv0t"]
+[ext_resource type="Script" uid="uid://c3kojuj135222" path="res://src/systems/enemies/enemy.gd" id="1_1diva"]
+[ext_resource type="Script" uid="uid://bx4ovf2q2px2i" path="res://src/systems/map/tile_component.gd" id="2_1diva"]
+
+[node name="Enemy" type="Node2D" unique_id=1352275050]
+script = ExtResource("1_1diva")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1028594254]
+position = Vector2(-4, -67)
+texture = ExtResource("1_0gv0t")
+
+[node name="TileComponent" type="Node2D" parent="." unique_id=1392036485 node_paths=PackedStringArray("target")]
+script = ExtResource("2_1diva")
+target = NodePath("..")
+can_interact = true
+metadata/_custom_type_script = "uid://bx4ovf2q2px2i"
+
+[connection signal="interacted" from="TileComponent" to="." method="_on_tile_component_interacted"]

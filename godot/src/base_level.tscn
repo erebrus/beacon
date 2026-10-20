@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://bvx0bcjkiobrj" path="res://src/systems/player/player.tscn" id="3_orbt0"]
 [ext_resource type="PackedScene" uid="uid://b6lf6jnjlqt4n" path="res://src/systems/obstacles/tree.tscn" id="4_mo2dc"]
 [ext_resource type="PackedScene" uid="uid://dt4jk00rdm1c" path="res://src/systems/beacons/beacon.tscn" id="5_82ww6"]
+[ext_resource type="PackedScene" uid="uid://cm7gpr7r0mb3o" path="res://src/systems/enemies/enemy.tscn" id="6_0xb2g"]
 
 [node name="BaseLevel" type="Node2D" unique_id=692058933]
 y_sort_enabled = true
@@ -34,3 +35,10 @@ y_sort_enabled = true
 
 [node name="Beacon" parent="Beacons" unique_id=736061342 instance=ExtResource("5_82ww6")]
 position = Vector2(1222, 441)
+
+[node name="Enemies" type="Node2D" parent="." unique_id=629897919]
+unique_name_in_owner = true
+y_sort_enabled = true
+
+[node name="Enemy" parent="Enemies" unique_id=1352275050 instance=ExtResource("6_0xb2g")]
+position = Vector2(573, 763)

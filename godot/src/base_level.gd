@@ -11,6 +11,7 @@ var game_state:GameState
 func _ready() -> void:
 	_register_objects(%Trees)
 	_register_objects(%Beacons)
+	_register_objects(%Enemies)
 
 
 func set_state(_game_state:GameState):
