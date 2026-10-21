@@ -80,7 +80,7 @@ func _on_unit_turn_component_turn_started() -> void:
 	GSLogger.info("%s turn" % [name])
 	await get_tree().physics_frame
 	actions = max_actions
-	map.reset_astar()
+	map.reset_astar([tile_component.cell])
 	update_vision()
 	do_ai()	
 	turn.end_turn()

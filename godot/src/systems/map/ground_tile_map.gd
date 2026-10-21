@@ -18,20 +18,26 @@ func _ready() -> void:
 				visited_source_id = source_id
 			"unvisited":
 				unvisited_source_id = source_id
-	reset_astar()
 	
-func reset_astar():
+func reset_astar(exclusions:Array[Vector2i] = []):
 	astar = AStarGrid2D.new()
 	astar.diagonal_mode = AStarGrid2D.DIAGONAL_MODE_NEVER
 	astar.region = get_used_rect()
-	for y in range(astar.region.position.y, astar.region.size.y+1):
-		for x in range(astar.region.position.x, astar.region.size.x+1):
+	astar.region.size += Vector2i(1,1)
+	astar.update()
+
+	for y in range(astar.region.position.y, astar.region.size.y):
+		for x in range(astar.region.position.x, astar.region.size.x):
 			var cell:Vector2i = Vector2i(x,y)
+			if cell in exclusions:
+				continue
 			if get_cell_source_id(cell) == -1:
 				astar.set_point_solid(cell, true)
+			elif cell in objects and objects[cell].exclusive_cell_use and not objects[cell].target is Player:
+				astar.set_point_solid(cell, true)
 			else:
-				if cell in objects and objects[cell].exclusive_cell_use:
-					astar.set_point_solid(cell, true)
+				astar.set_point_solid(cell, false)
+				
 	astar.update()
 	
 func visit(center_cell: Vector2i) -> void:
