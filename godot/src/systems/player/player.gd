@@ -1,6 +1,5 @@
-extends CharacterBody2D
+class_name Player extends CharacterBody2D
 
-const PLAYER_MOVE_TIME := .3
 @export var map:GroundTileMap
 @export var max_actions := 3
 var desired_cell:Vector2i
@@ -80,7 +79,7 @@ func _do_move():
 	GSLogger.info("Performing move to %s" % [desired_cell])
 		
 	var tween := create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CUBIC)
-	tween.tween_property(self, "global_position", map.map_to_global(desired_cell), PLAYER_MOVE_TIME)
+	tween.tween_property(self, "global_position", map.map_to_global(desired_cell), BaseLevel.MOVE_TIME)
 	await tween.finished
 	map.visit(tile_component.cell)
 
@@ -92,3 +91,6 @@ func check_end_turn():
 
 func _on_unit_turn_started() -> void:
 	actions = max_actions
+
+func take_damage(dmg:float):
+	GSLogger.info("Player takes damage %d" % dmg)

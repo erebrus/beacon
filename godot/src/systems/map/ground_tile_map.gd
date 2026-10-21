@@ -7,6 +7,7 @@ var visited_source_id: int
 var unvisited_source_id: int
 
 var objects: Dictionary[Vector2i, TileComponent]
+var astar:AStarGrid2D
 
 func _ready() -> void:
 	for i in tile_set.get_source_count():
@@ -17,8 +18,22 @@ func _ready() -> void:
 				visited_source_id = source_id
 			"unvisited":
 				unvisited_source_id = source_id
-
-
+	reset_astar()
+	
+func reset_astar():
+	astar = AStarGrid2D.new()
+	astar.diagonal_mode = AStarGrid2D.DIAGONAL_MODE_NEVER
+	astar.region = get_used_rect()
+	for y in range(astar.region.position.y, astar.region.size.y+1):
+		for x in range(astar.region.position.x, astar.region.size.x+1):
+			var cell:Vector2i = Vector2i(x,y)
+			if get_cell_source_id(cell) == -1:
+				astar.set_point_solid(cell, true)
+			else:
+				if cell in objects and objects[cell].exclusive_cell_use:
+					astar.set_point_solid(cell, true)
+	astar.update()
+	
 func visit(center_cell: Vector2i) -> void:
 	for x in range(center_cell.x - fog_of_war_radius, center_cell.x + fog_of_war_radius):
 		for y in range(center_cell.y - fog_of_war_radius, center_cell.y + fog_of_war_radius):
@@ -110,3 +125,16 @@ func move_component(component: TileComponent, new_cell: Vector2i) -> bool:
 	else:
 		GSLogger.warn("Tried to move object %s from %s to %s, but it's not there!." % [component.target.name, component.cell, new_cell])
 		return false
+
+func get_object_at(cell:Vector2i):
+	if cell in objects:
+		return objects[cell].target
+	else:
+		return null
+
+
+func get_cell_path_to(from:Vector2i,dest:Vector2i) -> Array[Vector2i]:
+	var ret:Array[Vector2i]
+	ret.assign(astar.get_point_path(from, dest, true))
+	return ret
+	

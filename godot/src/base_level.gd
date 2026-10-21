@@ -1,5 +1,6 @@
 class_name BaseLevel extends Node
 
+const MOVE_TIME = .3
 @export var override_game_state: GameState
 
 
